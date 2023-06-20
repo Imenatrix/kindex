@@ -1,13 +1,14 @@
-import { spawn } from 'child_process'
-import type { ChildProcessWithoutNullStreams } from 'child_process'
+import { exec } from 'child_process'
+import type { ChildProcess } from 'child_process'
 
-let process : ChildProcessWithoutNullStreams
+let process : ChildProcess
 
 export const actions = {
     run : async () => {
-        process = spawn('node', ['run.js'])
-        process.stdout.on('data', (data) => {
-            console.log(data.toString().replace('\n', ''))
+        process = exec('node run.js', (error, stdout, stderr) => {
+            console.log('error: ' + error)
+            console.log('stdout: ' + stdout)
+            console.log('stderr: ' + stderr)
         })
     },
     stop : async () => {
